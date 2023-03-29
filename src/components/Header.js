@@ -1,7 +1,10 @@
 import React from 'react'
 import Nav from 'react-bootstrap/Nav';
+import { useStateContext } from '../store/StateContext';
+import CartItem from './CartItem';
 
 const Header = () => {
+  const cxt=useStateContext();
   return (
     <Nav
       activeKey="/home"
@@ -17,7 +20,8 @@ const Header = () => {
       <Nav.Item>
         <Nav.Link href="/home">About</Nav.Link>
       </Nav.Item>
-<span>Cart 0</span>
+<button className='mx-5 float-right' onClick={cxt.ShowCart}>Cart 0</button>
+ <CartItem/>
 </Nav>  
 )
 }
