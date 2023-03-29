@@ -2,8 +2,8 @@ import React from 'react'
 import Nav from 'react-bootstrap/Nav';
 import { useStateContext } from '../store/StateContext';
 import CartItem from './CartItem';
-
-const Header = () => {
+import { NavLink } from 'react-router-dom';
+const Header = (props) => {
   const cxt=useStateContext();
   return (
     <Nav
@@ -11,17 +11,17 @@ const Header = () => {
       onSelect={(selectedKey) => alert(`selected ${selectedKey}`)}
       className="justify-content-center bg-dark text-white fs-5"
     >
-<Nav.Item>
-        <Nav.Link href="/home">Home</Nav.Link>
+<Nav.Item className='mx-5'>
+        <NavLink to="/">Home</NavLink>
       </Nav.Item>
-      <Nav.Item>
-        <Nav.Link href="/home">Store</Nav.Link>
+      <Nav.Item className='mx-5'>
+        <NavLink to="/home">Store</NavLink>
       </Nav.Item>
-      <Nav.Item>
-        <Nav.Link href="/home">About</Nav.Link>
+      <Nav.Item className='mx-5'>
+        <NavLink to="/About">About</NavLink>
       </Nav.Item>
-<button className='mx-5 float-right' onClick={cxt.ShowCart}>Cart 0</button>
- <CartItem/>
+<button className='mx-5 float-right' onClick={cxt.ShowCart}>Cart {cxt.update}</button>
+ <CartItem />
 </Nav>  
 )
 }

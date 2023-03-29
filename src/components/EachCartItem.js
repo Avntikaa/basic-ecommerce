@@ -1,6 +1,7 @@
 import React from 'react'
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
+import Product from './Product';
 
 const EachCartItem = (props) => {
   return (
@@ -15,14 +16,7 @@ const EachCartItem = (props) => {
               </thead>  
 {
     props.item.map((i)=>{
-return (<tbody>
-        <tr>
-          <td>{i.title}</td>
-          <td>{i.price}</td>
-          <td>{i.quantity}</td>
-          <td><Button variant='danger'>Remove</Button></td>
-        </tr>
-        </tbody>)
+return <Product i={i} />
     })
 }
         

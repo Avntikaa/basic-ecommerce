@@ -1,17 +1,21 @@
 import './App.css';
-import HeaderSummary from './components/HeaderSummary'
-import Header from './components/Header'
-import ShowData from './components/ShowData';
-import Footer from './components/Footer';
 import { StateContext } from './store/StateContext';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Home from './pages/Home';
+import About from './pages/About';
+
 function App() {
+  
+
+ const router= createBrowserRouter([
+    {path:'/',element:<Home/>},{
+      path:'/About',element:<About/>
+    }
+  ])
   return (
     <div className="App">
       <StateContext>
-     <Header/>
-<HeaderSummary/>
-<ShowData/>
-<Footer/>
+     <RouterProvider router={router}/>
 </StateContext>
     </div>
   );

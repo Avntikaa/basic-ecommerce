@@ -1,34 +1,37 @@
 import React from 'react'
-import { Col } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
-import Row from 'react-bootstrap/Row';
+import EachData from './EachData';
 
 
-const ShowData = () => {
+const ShowData = (props) => {
+
     const productsArr = [{
 
 title: 'Colors',
 price: 100,
 imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%201.png',
+quantity:0
 },
 
 {
 title: 'Black and white Colors',
 price: 50,
 imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%202.png',
-},
+quantity:0},
 
 {
 title: 'Yellow and Black Colors',
 price: 70,
 imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%203.png',
+quantity:0
 },
 {
 title: 'Blue Color',
 price: 100,
 imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%204.png',
+quantity:0
 }
 ]
+
 
   return (
     <div>
@@ -36,18 +39,7 @@ imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%204.png',
         {
         productsArr.map((i)=>{
             return (
-                <Row>
-                  <Col>
-            <h1>{i.title}</h1>
-            <img src={i.imageUrl} alt='img'/>
-            <div className='justify-content-md-around  mt-3'>
-<span className='mx-5'>$ {i.price}</span>
-        <Button variant="primary" size="sm">
-          Large button
-        </Button>
-        </div>
-        </Col>
-            </Row>
+                <EachData i={i}/>
             )
         })
     }
