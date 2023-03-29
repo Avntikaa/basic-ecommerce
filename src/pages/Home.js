@@ -1,15 +1,15 @@
 import React from 'react'
-import ShowData from '../components/ShowData'
 import Header from '../components/Header'
-import HeaderSummary from '../components/HeaderSummary'
+import HomeHeaderSummary from '../components/HomeHeaderSummary'
 import Footer from '../components/Footer'
+import HomeMainContent from '../components/HomeMainContent'
 
 const Home = () => {
   return (
     <div>
         <Header />
-<HeaderSummary/>
-<ShowData />
+<HomeHeaderSummary/>
+<HomeMainContent/>
 <Footer/>
     </div>
   )
