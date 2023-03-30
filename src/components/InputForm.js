@@ -1,6 +1,8 @@
 import React, { useState} from 'react'
+import { useStateContext } from '../store/StateContext';
 import './InputForm.css'
 const InputForm = (props) => {
+    const cxt=useStateContext();
     const [title,setTitle]=useState('');
     const [desc,setDesc]=useState('');
     const[date,setDate]=useState('');
@@ -27,6 +29,8 @@ fetch('https://react-box-58c06-default-rtdb.firebaseio.com/movies.json',{
     method:'POST',
     body:JSON.stringify(newmovie)
 })
+cxt.setMovies((prev)=>[...prev,newmovie])
+console.log('post success');
 }
 catch(error){
     console.log(error);

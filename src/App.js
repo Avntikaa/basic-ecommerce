@@ -4,60 +4,30 @@ import MoviesList from './components/MoviesList';
 import './App.css';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import InputForm from './components/InputForm';
+import { useStateContext } from './store/StateContext';
 
 function App() {
-  const [movies,setMovies]=useState([]);
-const[isLoading,setIsLoading]=useState(false);
-const[error,setError]=useState();
-function stopRetrying(){
-setIsLoading(false);
-}
- 
-  const fetchMovieHandler=useCallback(async() =>{
-    console.log('bhjcb');
-    setIsLoading(true);
-    try{
- const response=await fetch('https://react-box-58c06-default-rtdb.firebaseio.com/movies.json')
-     const data=await response.json();
- if(!response.ok)
- {
-  throw new Error('Something went Wrong......retrying');
- }
- for(const key in data){
-  console.log(data[key]);
-  let obj=data[key];
-obj={...obj,id:key}
-    setMovies((prev)=>[...prev,obj]);
-           setIsLoading(false);
-    }
-  }
-  catch(error){
-    setError(error.message);
-    setTimeout(fetchMovieHandler,5000);
-  }
-
-  },[])
-
+  const cxt=useStateContext();
 useEffect(()=>{
-    fetchMovieHandler();
-  },[])
+    cxt.fetchMovieHandler();
+  },[cxt.fetchMovieHandler])
 
  
   return (
-    <React.Fragment>
-      <InputForm fetchMovieHandler={fetchMovieHandler}/>
+    <>
+      <InputForm />
       <section>
-        <button onClick={fetchMovieHandler}>Fetch Movies</button>
+        <button onClick={cxt.fetchMovieHandler}>Fetch Movies</button>
       </section>
       <section>
-     {!isLoading && movies.length>0 && <MoviesList movies={movies} fetchMovieHandler={fetchMovieHandler}/>}
-     {isLoading && error && 
+     {!cxt.isLoading && cxt.movies.length>0 && <MoviesList/>}
+     {cxt.isLoading && cxt.error && 
      <>
-     <p>isLoading .... {error} <AiOutlineLoading3Quarters/></p>
-     <button onClick={stopRetrying}>Stop</button>
+     <p>isLoading .... {cxt.error} <AiOutlineLoading3Quarters/></p>
+     <button onClick={cxt.stopRetrying}>Stop</button>
      </>}
       </section>
-    </React.Fragment>
+      </>
   );
 }
 
