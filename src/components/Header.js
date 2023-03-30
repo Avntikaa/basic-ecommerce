@@ -20,6 +20,9 @@ const Header = (props) => {
       <Nav.Item className='mx-5'>
         <NavLink to="/About">About</NavLink>
       </Nav.Item>
+       <Nav.Item className='mx-5'>
+        <NavLink to="/Contact">Contact</NavLink>
+      </Nav.Item>
 <button className='mx-5 float-right' onClick={cxt.ShowCart}>Cart {cxt.update}</button>
  <CartItem />
 </Nav>  

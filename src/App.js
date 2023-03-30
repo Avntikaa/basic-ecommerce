@@ -1,35 +1,26 @@
-import React, { useEffect, useState ,useCallback} from 'react';
-
-import MoviesList from './components/MoviesList';
 import './App.css';
-import { AiOutlineLoading3Quarters } from 'react-icons/ai';
-import InputForm from './components/InputForm';
-import { useStateContext } from './store/StateContext';
-
+import { StateContext } from './store/StateContext';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Home from './pages/Home';
+import About from './pages/About';
+import Store from './pages/Store';
+import Contact from './pages/Contact';
 function App() {
-  const cxt=useStateContext();
-useEffect(()=>{
-    cxt.fetchMovieHandler();
-  },[cxt.fetchMovieHandler])
+  
 
- 
+ const router= createBrowserRouter([
+    {path:'/Store',element:<Store/>},
+    {path:'/About',element:<About/>},
+    {path:'/',element:<Home/>},
+    {path:'/Contact',element:<Contact/>}
+  ])
   return (
-    <>
-      <InputForm />
-      <section>
-        <button onClick={cxt.fetchMovieHandler}>Fetch Movies</button>
-      </section>
-      <section>
-     {!cxt.isLoading && cxt.movies.length>0 && <MoviesList/>}
-     {cxt.isLoading && cxt.error && 
-     <>
-     <p>isLoading .... {cxt.error} <AiOutlineLoading3Quarters/></p>
-     <button onClick={cxt.stopRetrying}>Stop</button>
-     </>}
-      </section>
-      </>
+    <div className="App">
+      <StateContext>
+     <RouterProvider router={router}/>
+</StateContext>
+    </div>
   );
 }
 
 export default App;
-
