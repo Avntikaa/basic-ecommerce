@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Store from './pages/Store';
 import Contact from './pages/Contact';
+import ProductDetail from './components/ProductDetail';
 function App() {
   
 
@@ -12,12 +13,15 @@ function App() {
     {path:'/Store',element:<Store/>},
     {path:'/About',element:<About/>},
     {path:'/',element:<Home/>},
-    {path:'/Contact',element:<Contact/>}
+    {path:'/Contact',element:<Contact/>},
+    {
+      path:'/Store/:id',element:<ProductDetail/>
+    }
   ])
   return (
     <div className="App">
       <StateContext>
-     <RouterProvider router={router}/>
+     <RouterProvider router={router} exact/>
 </StateContext>
     </div>
   );

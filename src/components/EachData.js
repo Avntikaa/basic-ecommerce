@@ -3,10 +3,12 @@ import { useStateContext } from '../store/StateContext';
 import { Col } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
+import { Link } from 'react-router-dom';
 
 const EachData = (props) => {
       const cxt=useStateContext();
-
+console.log(props.id);
+const id=props.id;
         const [quantity,setQuantity]=useState(0);
         const addtocart=(i)=>{
    const obj={
@@ -19,6 +21,7 @@ cxt.AddtoCart(obj);
 }
 
   return (
+    <Link to={`/Store/${id}`}>
 <Row>
                   <Col>
             <h1>{props.i.title}</h1>
@@ -29,7 +32,8 @@ cxt.AddtoCart(obj);
 Add to Cart        </Button>
         </div>
         </Col>
-            </Row>  )
+            </Row>  
+            </Link>)
 }
 
 export default EachData
