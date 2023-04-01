@@ -7,7 +7,9 @@ export const StateContext = ({ children }) => {
   const[cartElements,setCartElements]=useState([]);
   const[update,setUpdate]=useState(0);
   const[loadpage,setLoadPage]=useState(0);
-const ShowCart=()=>{
+  const[isLogin,setIsLogin]=useState(false);
+  const[token,setToken]=useState('null');
+;const ShowCart=()=>{
     setOpenModal(true);
 }
   const productsArr = [{
@@ -68,7 +70,7 @@ setLoadPage((prev)=>prev+1);
   return (
     <Context.Provider
       value={{
-       ShowCart,openModal,AddtoCart,cartElements,setOpenModal,update,productsArr
+       ShowCart,openModal,AddtoCart,cartElements,setOpenModal,update,productsArr,token,setToken,isLogin,setIsLogin
         }}>
       {children}
     </Context.Provider>

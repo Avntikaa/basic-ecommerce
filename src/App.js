@@ -1,28 +1,38 @@
 import './App.css';
-import { StateContext } from './store/StateContext';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { useStateContext } from './store/StateContext';
+import { Routes, Route, Navigate} from 'react-router-dom';
+
 import Home from './pages/Home';
 import About from './pages/About';
 import Store from './pages/Store';
 import Contact from './pages/Contact';
 import ProductDetail from './components/ProductDetail';
+import Login from './pages/Login';
 function App() {
-  
+  const cxt=useStateContext();
 
- const router= createBrowserRouter([
-    {path:'/Store',element:<Store/>},
-    {path:'/About',element:<About/>},
-    {path:'/',element:<Home/>},
-    {path:'/Contact',element:<Contact/>},
-    {
-      path:'/Store/:id',element:<ProductDetail/>
-    }
-  ])
+ 
   return (
     <div className="App">
-      <StateContext>
-     <RouterProvider router={router} exact/>
-</StateContext>
+      <Routes>
+        <Route path='/' exact
+         element={ <Home />}/>
+        <Route path='/About' exact
+         element={ <About />}
+          // {cxt.isLogin && <Navigate to='/profile'/>}
+        />
+        <Route path='/Store' exact
+         element={cxt.isLogin && <Store/>}
+         />
+        <Route path='/Contact' exact
+        element={<Contact/>}
+        />
+           <Route path='/Login' exact
+          element={<>{!cxt.isLogin && <Login/>} {cxt.isLogin && <Navigate to='/Store'/>}</>}
+          />
+          <Route path='/Store/:id' exact
+          element={<ProductDetail/>}/>
+      </Routes>
     </div>
   );
 }
