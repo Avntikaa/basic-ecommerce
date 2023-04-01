@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 
 const EachData = (props) => {
       const cxt=useStateContext();
-console.log(props.id);
 const id=props.id;
         const [quantity,setQuantity]=useState(0);
         const addtocart=(i)=>{

@@ -30,6 +30,7 @@ returnSecureToken:true
 if(res.ok){
   res.json().then((data)=>{
 console.log('Logg in successfully');
+cxt.setEmail(enteredEmail);
 cxt.setToken(data.idToken);
 localStorage.setItem('id',data.idToken);
 setIsLoader(false);

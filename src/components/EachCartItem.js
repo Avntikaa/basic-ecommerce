@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Product from './Product';
 
 const EachCartItem = (props) => {
+  console.log(props.item);
   return (
     <>
  <Table striped bordered hover size="sm" borderless>

@@ -5,6 +5,7 @@ import CartItem from './CartItem';
 import { NavLink } from 'react-router-dom';
 const Header = (props) => {
   const cxt=useStateContext();
+  console.log(cxt.email);
   return (
     <Nav
       activeKey="/home"
@@ -26,6 +27,7 @@ const Header = (props) => {
        <Nav.Item className='mx-5'>
         <NavLink to="/Contact">Contact</NavLink>
       </Nav.Item>
+      <h1>{cxt.email}</h1>
 <button className='mx-5 float-right' onClick={cxt.ShowCart}>Cart {cxt.update}</button>
  <CartItem />
 </Nav>  
