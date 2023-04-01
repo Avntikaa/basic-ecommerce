@@ -22,7 +22,7 @@ function App() {
           // {cxt.isLogin && <Navigate to='/profile'/>}
         />
         <Route path='/Store' exact
-         element={cxt.isLogin && <Store/>}
+         element={<>{cxt.isLogin && <Store/>}{!cxt.isLogin && <Navigate to='/Login'/>}</>}
          />
         <Route path='/Contact' exact
         element={<Contact/>}
