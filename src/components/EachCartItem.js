@@ -2,9 +2,10 @@ import React from 'react'
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Product from './Product';
+import { useStateContext } from '../store/StateContext';
 
 const EachCartItem = (props) => {
-  console.log(props.item);
+  const cxt=useStateContext();
   return (
     <>
  <Table striped bordered hover size="sm" borderless>
@@ -16,14 +17,15 @@ const EachCartItem = (props) => {
         </tr>
               </thead>  
 {
-    props.item.map((i)=>{
+    cxt.cartElements.map((i)=>{
 return <Product i={i} />
     })
 }
         
         </Table>
-        <h3>Total  $ 0.00</h3>
+        <h3>Total : $ {cxt.price}</h3>
         <Button variant='primary'>Purchase</Button>
+       
         </>
       )
 }

@@ -8,21 +8,18 @@ import { Link } from 'react-router-dom';
 const EachData = (props) => {
       const cxt=useStateContext();
 const id=props.id;
-        const [quantity,setQuantity]=useState(0);
         const addtocart=(i)=>{
    const obj={
       title:i.title,
       price:i.price,
-      quantity:i.quantity
+      quantity:i.quantity,
     }
-setQuantity(quantity+1);
 cxt.AddtoCart(obj);
 }
 
   return (
+        <span>
     <Link to={`/Store/${id}`}>
-<Row>
-                  <Col>
             <h1>{props.i.title}</h1>
             <img src={props.i.imageUrl} alt='img'/>
             <div className='justify-content-md-around  mt-3'>
@@ -30,9 +27,10 @@ cxt.AddtoCart(obj);
         <Button variant="primary" size="sm" onClick={()=>addtocart(props.i)}>
 Add to Cart        </Button>
         </div>
-        </Col>
-            </Row>  
-            </Link>)
+
+            </Link>
+            </span>
+            )
 }
 
 export default EachData

@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { StateContext } from './store/StateContext';
+import Header from './components/Header';
 
 /*React Bootstrap configuration*/
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';

@@ -30,7 +30,8 @@ fetch('https://ecommerce-2f0ac-default-rtdb.firebaseio.com/product.json',{
     method:'POST',
     body:JSON.stringify(newuser)
 })
-console.log('post success');
+alert('success');
+
 }
 catch(error){
     console.log(error);

@@ -8,6 +8,8 @@ import Store from './pages/Store';
 import Contact from './pages/Contact';
 import ProductDetail from './components/ProductDetail';
 import Login from './pages/Login';
+import Header from './components/Header';
+import Signup from './pages/Signup';
 function App() {
   const cxt=useStateContext();
 
@@ -16,7 +18,8 @@ function App() {
     <div className="App">
       <Routes>
         <Route path='/' exact
-         element={ <Home />}/>
+         element={ <Home />}
+         />
         <Route path='/About' exact
          element={ <About />}
           // {cxt.isLogin && <Navigate to='/profile'/>}
@@ -32,6 +35,9 @@ function App() {
           />
           <Route path='/Store/:id' exact
           element={<ProductDetail/>}/>
+          <Route path='/Signup' exact
+          element={<><Signup/>{cxt.signup && <Navigate to='/Login'/>}</>}
+          />
       </Routes>
     </div>
   );

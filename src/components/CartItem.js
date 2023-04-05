@@ -17,7 +17,7 @@ const handleClose=()=>{
           <Modal.Title>CART</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-<EachCartItem item={cxt.cartElements} />
+<EachCartItem  />
     </Modal.Body>
       </Modal>
  

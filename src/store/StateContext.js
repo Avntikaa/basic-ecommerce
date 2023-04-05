@@ -11,29 +11,39 @@ export const StateContext = ({ children }) => {
   const[isLogin,setIsLogin]=useState(false);
   const[token,setToken]=useState('null');
 const[email,setEmail]=useState();
-let result;
-if(email)
-{console.log(email);
-result = email.split('@')[0];}
+const[signup,setSignup]=useState(false);
+const[notlogout,setNotlogout]=useState(false);
+const[disable,setDisable]=useState(false);
+const[price,setPrice]=useState(0);
+  let loginemail;
+  let emailpresent;
+  const url='57ca154bee204e07b052d4fb9d5cd96f';
 
- useEffect(()=>{
-  console.log('work');
+useEffect(()=>{
+  emailpresent=localStorage.getItem('email');
+  if(emailpresent!=='null'){
+  console.log('email exist');
+setIsLogin(true);
+loginemail= emailpresent.split('@')[0];
+}
   if(isLogin){
-  axios.get(`https://crudcrud.com/api/e8903a5e233d4c529802e6c5bd10af35/cart${result}`)
+    (async()=>{
+      await axios.get(`https://crudcrud.com/api/${url}/cart${loginemail}`)
    .then((response)=>{
       for(let i=0;i<response.data.length;i++){
-setCartElements((prev)=>[...prev,response.data[i]])  
-setUpdate((prev)=>prev+1);}
+        console.log(response.data[i])
+setCartElements((prev)=>[...prev,response.data[i]]) 
+setUpdate((prev)=>prev+1);
+let newp=response.data[i].price*response.data[i].quantity;
+setPrice((prev)=>prev+newp);
+      } 
  })
-.catch(err=>console.log(err));
+.catch(err=>console.log('hii'));
+    })()
+ 
     const val=localStorage.getItem('id');
-    console.log(typeof(val));
     if(val!=='null'){
-      console.log('ufhsh');
-setToken(val);
-if(email){
-setIsLogin(true);
-}
+   setToken(val);
     }  
   }
   },[isLogin])
@@ -41,72 +51,224 @@ setIsLogin(true);
   const ShowCart=()=>{
     setOpenModal(true);
 }
+
+const onlogout=()=>{
+  localStorage.setItem('id','null');
+  localStorage.setItem('email','null');
+  setIsLogin(false);
+  setNotlogout(true);
+  setCartElements([]);
+  setUpdate(0);
+  setPrice(0);
+}
+
   const productsArr = [{
 
 title: 'Colors',
 price: 100,
-imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%201.png',
-quantity:0,id:1,
+imageUrl: 'https://images.bewakoof.com/t640/women-s-red-emotional-baggage-graphic-printed-oversized-t-shirt-584926-1679641476-1.jpg',id:1,
+quantity:1,
 review:4
 },
 
 {
 title: 'Black and white Colors',
 price: 50,
-imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%202.png',
-quantity:0,id:2,review:3},
+imageUrl: 'https://images.bewakoof.com/t640/women-s-green-sea-u-never-graphic-printed-boyfriend-t-shirt-585491-1680526170-1.jpg',
+quantity:1,
+id:2,review:3},
 
 {
 title: 'Yellow and Black Colors',
 price: 70,
-imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%203.png',
-quantity:0,id:3,review:4
+imageUrl: 'https://images.bewakoof.com/t640/women-s-pink-sea-u-never-graphic-printed-oversized-t-shirt-585499-1680539404-1.jpg',
+quantity:1,
+id:3,review:4
 },
 {
 title: 'Blue Color',
 price: 100,
-imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%204.png',
-quantity:0,id:4,review:2
+imageUrl: 'https://images.bewakoof.com/t640/women-s-blue-samurai-cat-graphic-printed-boyfriend-t-shirt-585728-1680526356-1.jpg',
+quantity:1,
+id:4,review:2
 }
 ]
+
 const AddtoCart=async (item)=>{
-    console.log('added')
+          const newArray = [...cartElements];
+            emailpresent=localStorage.getItem('email');
+
+loginemail= emailpresent.split('@')[0];
+console.log(loginemail);
     let flag=false;
-    if(cartElements.length>0){
-        cartElements.forEach((i)=>{
+    let indexs,ind;
+    let article;
+    if(newArray.length>0){
+        newArray.forEach((i,index)=>{
             if(i.title===item.title)
+            {
             flag=true;
+            indexs=index;
+            }
         })
         if(flag===false){
+          console.log('new added');
       setCartElements((prev)=>[...prev,item])
-      await axios.post(`https://crudcrud.com/api/e8903a5e233d4c529802e6c5bd10af35/cart${result}`,item)
+      await axios.post(`https://crudcrud.com/api/${url}/cart${loginemail}`,item)
 .then(res=>{
 console.log(res.data);     })
   .catch(err=>console.log(err));
                   setUpdate((prev)=>prev+1);
-        item.quantity=100+1;
+                  setPrice((prev)=>prev+item.price);
 
         }
         else{
+          console.log(indexs);
             console.log('already added');
-            item.quantity=item.quantity+1;
+            console.log(newArray);
+                        newArray[indexs].quantity = Number(newArray[indexs].quantity) + 1;
+                         article={
+              title:item.title,
+               price:item.price,
+               quantity:newArray[indexs].quantity
+            }
+            await axios.get(`https://crudcrud.com/api/${url}/cart${loginemail}`)
+   .then((response)=>{
+      for(let i=0;i<response.data.length;i++){
+        if(response.data[i].title===item.title)
+        ind=response.data[i]._id;
+      }
+      })
+      console.log(ind);
+  await axios.put(`https://crudcrud.com/api/${url}/cart${loginemail}/${ind}`,article)
+.then(res=>{
+console.log(res.data);     })
+  .catch(err=>console.log(err)); 
+            setCartElements(newArray);
+                              setPrice((prev)=>prev+item.price);
+
         }
     }
+
+
     else{
+      console.log('new added')
 setCartElements((prev)=>[...prev,item])
-await axios.post(`https://crudcrud.com/api/e8903a5e233d4c529802e6c5bd10af35/cart${result}`,item)
+await axios.post(`https://crudcrud.com/api/${url}/cart${loginemail}`,item)
 .then(res=>{
 console.log(res.data);     })
   .catch(err=>console.log(err));
 setUpdate((prev)=>prev+1);
-item.quantity=item.quantity+1;
+                  setPrice((prev)=>prev+item.price);
+
 }
 setLoadPage((prev)=>prev+1);
+}
+
+const incrementqty=async(item)=>{
+              emailpresent=localStorage.getItem('email');
+  loginemail= emailpresent.split('@')[0];
+ const newArray = [...cartElements];
+         let article;
+let ind;
+await axios.get(`https://crudcrud.com/api/${url}/cart${loginemail}`)
+   .then((response)=>{
+      for(let i=0;i<response.data.length;i++){
+        if(response.data[i].title===item.title)
+        ind=response.data[i]._id;
+      }
+      })
+        newArray.forEach((element, index) => {
+          if (element.title === item.title) {
+            newArray[index].quantity = Number(newArray[index].quantity) + 1;
+            article={
+              title:item.title,
+               price:item.price,
+               quantity:newArray[index].quantity
+            }
+          }
+        });
+        console.log(ind);
+        setCartElements(newArray);
+                          setPrice((prev)=>prev+item.price);
+
+await axios.put(`https://crudcrud.com/api/${url}/cart${loginemail}/${ind}`,article)
+.then(res=>{
+console.log(res.data);     })
+  .catch(err=>console.log(err)); 
+
+}
+
+const decrementqty=async(item)=>{
+const newArray = [...cartElements];
+emailpresent=localStorage.getItem('email');
+  loginemail= emailpresent.split('@')[0];
+ let article;
+let ind;
+
+if(item.quantity>1){
+await axios.get(`https://crudcrud.com/api/${url}/cart${loginemail}`)
+   .then((response)=>{
+      for(let i=0;i<response.data.length;i++){
+        if(response.data[i].title===item.title)
+        ind=response.data[i]._id;
+      }
+      })
+        newArray.forEach((element, index) => {
+          if (element.title === item.title) {
+            newArray[index].quantity = Number(newArray[index].quantity) - 1;
+            article={
+              title:item.title,
+               price:item.price,
+               quantity:newArray[index].quantity
+            }
+          }
+        });
+        setCartElements(newArray);
+                          setPrice((prev)=>prev-item.price);
+
+        await axios.put(`https://crudcrud.com/api/${url}/cart${loginemail}/${ind}`,article)
+.then(res=>{
+console.log(res.data);     })
+  .catch(err=>console.log(err)); 
+}
+else{
+  console.log('hooo');
+  setDisable(true);
+}
+
+}
+const removeitemfromcart=async (item)=>{
+  emailpresent=localStorage.getItem('email');
+  loginemail= emailpresent.split('@')[0];
+let ind;
+  const newCartElement=cartElements;
+
+await axios.get(`https://crudcrud.com/api/${url}/cart${loginemail}`)
+   .then((response)=>{
+      for(var i=0;i<response.data.length;i++){
+        if(response.data[i].title===item.title){
+        ind=response.data[i]._id;
+  newCartElement.splice(i, 1);
+        }
+      }
+      })
+  axios.delete(`https://crudcrud.com/api/${url}/cart${loginemail}/${ind}`)
+.then(res=>{
+console.log(res.data);    
+ })
+  .catch(err=>console.log(err));
+  console.log(newCartElement);
+  setCartElements(newCartElement);
+  setUpdate((prev)=>prev-1);
+  let valp=item.price*item.quantity;
+                    setPrice((prev)=>prev-valp);
+
 }
   return (
     <Context.Provider
       value={{
-       ShowCart,openModal,AddtoCart,cartElements,setOpenModal,update,setEmail,email,productsArr,token,setToken,isLogin,setIsLogin
+       ShowCart,openModal,price,AddtoCart,cartElements,setOpenModal,signup,setSignup,update,incrementqty,decrementqty,removeitemfromcart,setEmail,onlogout,email,productsArr,token,setToken,isLogin,setIsLogin
         }}>
       {children}
     </Context.Provider>

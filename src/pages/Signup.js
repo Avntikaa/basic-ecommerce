@@ -1,12 +1,15 @@
-import React,{useState,useRef} from 'react'
+ import React,{useState,useRef} from 'react'
 import './Login.css'
 import { useStateContext } from '../store/StateContext';
 import Header from '../components/Header';
 import { NavLink } from 'react-router-dom';
-const Login = () => {
+
+const Signup = () => {
+ 
   const cxt=useStateContext();
   const [isLoader, setIsLoader] = useState(false);
   const[isAlert,setIsAlert]=useState(false);
+
 const email=useRef();
 const password=useRef();
 
@@ -18,7 +21,7 @@ setIsLoader(true);
 const enteredEmail=email.current.value;
 const enteredPassword=password.current.value;
 try{
-const res=await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBTZc5ve0hppsi9GRY6iPt-YcVw-pQNi4s',{
+const res=await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBTZc5ve0hppsi9GRY6iPt-YcVw-pQNi4s',{
   method:'POST',
   body:JSON.stringify({
 email:enteredEmail,
@@ -31,14 +34,10 @@ returnSecureToken:true
 })
 if(res.ok){
   res.json().then((data)=>{
-console.log('Logg in successfully');
-cxt.setEmail(enteredEmail);
-cxt.setToken(data.idToken);
-localStorage.setItem('id',data.idToken);
-localStorage.setItem('email',enteredEmail);
+console.log('Sign in successfully');
 
 setIsLoader(false);
-    cxt.setIsLogin((prevState) => !prevState);
+    cxt.setSignup((prevState) => !prevState);
     // cxt.setProfilePage(true);
   });
 }
@@ -54,7 +53,7 @@ catch(error){
     <Header/>
    <section className="form-style-6" >
     {isAlert && alert('Auhtentication failed')}
-      <h1>Login </h1>
+      <h1>Sign In</h1>
     <form onSubmit={submitlogindetail}>
         <div>
           <label htmlFor='email'>Your Email</label>
@@ -70,18 +69,18 @@ catch(error){
           />
         </div>
         <div>
-{!isLoader && <button type='submit'>Login</button>}
+{!isLoader && <button type='submit'>Sign In</button>}
         
         </div>
         {isLoader && <p>sending request...</p>}
       </form>
       </section>
-       <NavLink to="/SignUp" style={({ isActive }) => 
-                      (isActive ? {color: 'blue',fontSize:"25px",fontWeight:"bold"} : {color: 'black',textDecoration:'none'})}>Create an Account</NavLink>
+       {/* <NavLink to="/SignUp" style={({ isActive }) => 
+                      (isActive ? {color: 'blue',fontSize:"25px",fontWeight:"bold"} : {color: 'black',textDecoration:'none'})}>Create an Account</NavLink> */}
    </>
   );
 };
 
 
 
-export default Login
+export default Signup
