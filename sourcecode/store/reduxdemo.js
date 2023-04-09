@@ -1,13 +1,16 @@
 import { createSlice, configureStore } from '@reduxjs/toolkit';
-import { act } from 'react-dom/test-utils';
 
 const initialCartState = {
  enablecart:false,
  cartItem:[],
  total:0,
  quantity:1,
- count:0
+ count:0,
+ isload:false,
+ enablenoti:false,
+ msg:''
 };
+
 
 const CartSlice = createSlice({
   name: 'authentication',
@@ -24,7 +27,6 @@ const newItem={
 }
 let existingItem;
  existingItem=state.cartItem.find((i)=>i.title===newItem.title)
-console.log(existingItem);
 if(!existingItem){
 state.cartItem=[...state.cartItem, {title:title,
     price:price,quantity:1}];
@@ -51,7 +53,16 @@ existingItem.quantity++;
     state.count--;
   }
 existingItem.quantity--;
+  },
+  loaddata(state,action){
+state.cartItem=action.payload;
+state.count++;
+  },
+  onnoti(state,action){
+state.enablenoti=true;
+state.msg=action.payload;
   }
+  
 }
 })
 
