@@ -5,7 +5,8 @@ const initialCartState = {
  enablecart:false,
  cartItem:[],
  total:0,
- quantity:1
+ quantity:1,
+ count:0
 };
 
 const CartSlice = createSlice({
@@ -28,6 +29,7 @@ if(!existingItem){
 state.cartItem=[...state.cartItem, {title:title,
     price:price,quantity:1}];
 state.total=state.total+parseInt(price);
+state.count=state.count+1;
 }
 else{
     existingItem.quantity=existingItem.quantity+1;
@@ -41,6 +43,13 @@ existingItem.quantity++;
   decrease(state,action){
     const newItem=action.payload;
     const existingItem=state.cartItem.find((i)=>i.title===newItem.title)
+    if(existingItem.quantity==1)
+    {
+      state.cartItem=state.cartItem.filter((i)=>{
+        return i.title!==existingItem.title;
+    })
+    state.count--;
+  }
 existingItem.quantity--;
   }
 }
